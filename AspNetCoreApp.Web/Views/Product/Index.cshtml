@@ -4,9 +4,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Product</h1>
+<h1>Product List</h1>
+
+@if (@TempData["Alert"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["Alert"]
+    </div>
+}
+
 <div class="text-right">
-    <a class="btn btn-outline-info" asp-controller="Product" asp-action="Index">New Product</a>
+    <a class="btn btn-outline-info" asp-controller="Product" asp-action="Add">New Product</a>
 </div>
 <br />
 <table class="table table-bordered">
@@ -25,8 +33,8 @@
             <td>@item.Price</td>
             <td>@item.Stock</td>
             <td class="text-right">
-                <a class="btn btn-outline-danger text-right" asp-controller="Product" asp-action="Index">Remove</a>
-                <a class="btn btn-outline-success text-right" asp-controller="Product" asp-action="Index">Edit</a>
+                <a class="btn btn-outline-danger text-right" asp-controller="Product" asp-action="Delete" asp-route-id="@item.Id">Remove</a>
+                <a class="btn btn-outline-success text-right" asp-controller="Product" asp-action="Update" asp-route-id="@item.Id" >Edit</a>
             </td>
         </tr>
     }
