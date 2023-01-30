@@ -4,18 +4,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AspNetCoreApp.Web.Helpers;
 using AspNetCoreApp.Web.Models;
 
 namespace AspNetCoreApp.Web.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly Context _c = new Context();
+        private  Context _context;
 
+        private IHelper _helper;
+        public ProductController(IHelper helper, Context context)
+        {
+            _helper = helper;
+            _context = context;
+        }
        
         public IActionResult Index()
         {
-            var result = _c.Products.ToList();
+            string text = "Merhaba Asp.Net Core";
+            var values = _helper.Upper(text);
+                
+            var result = _context.Products.ToList();
             return View(result);
         }
 
@@ -29,16 +39,16 @@ namespace AspNetCoreApp.Web.Controllers
         public IActionResult Add(Product product)
         {
 
-            _c.Products.Add(product);
-            _c.SaveChanges();
+            _context.Products.Add(product);
+            _context.SaveChanges();
             TempData["Alert"] = "Ürün başarılı bir şekilde eklendi";
             return RedirectToAction("Index");
         }
 
         public IActionResult Delete(int id)
         {
-            var product = _c.Products.Find(id);
-            _c.Products.Remove(product);
+            var product = _context.Products.Find(id);
+            _context.Products.Remove(product);
             TempData["Alert"] = "Ürün başarılı bir şekilde silindi.";
             return RedirectToAction("Index");
         }
@@ -46,15 +56,15 @@ namespace AspNetCoreApp.Web.Controllers
         [HttpGet]
         public IActionResult Update(int id)
         {
-            var product = _c.Products.Find(id);
+            var product = _context.Products.Find(id);
             return View(product);
         }
 
         [HttpPost]
         public IActionResult Update(Product product)
         {
-            _c.Products.Update(product);
-            _c.SaveChanges();
+            _context.Products.Update(product);
+            _context.SaveChanges();
             TempData["Alert"] = "Ürün başarılı bir şekilde güncellendi.";
             return RedirectToAction("Index");
         }

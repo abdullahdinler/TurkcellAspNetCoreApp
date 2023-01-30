@@ -8,10 +8,8 @@ namespace AspNetCoreApp.Web.Models
 {
     public class Context : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public Context(DbContextOptions<Context> options) : base(options)
         {
-            optionsBuilder.UseSqlServer(
-                @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=TurkcellAspNetCoreAppDB;Integrated Security=True");
         }
 
         public DbSet<Product> Products { get; set; }

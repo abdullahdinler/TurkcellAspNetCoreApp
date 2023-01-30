@@ -8,6 +8,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreApp.Web.Helpers;
+using AspNetCoreApp.Web.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AspNetCoreApp.Web
 {
@@ -24,6 +27,8 @@ namespace AspNetCoreApp.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddDbContext<Context>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<IHelper, Helper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
