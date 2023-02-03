@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Product>
+﻿
+@model IEnumerable<ProductViewModel>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -23,20 +24,22 @@
         <th>NAME</th>
         <th>PRICE</th>
         <th>STOCK</th>
+        <th>TIME</th>
         <th></th>
     </tr>
     @foreach (var item in Model)
     {
-        <tr>
-            <td>@item.Id</td>
-            <td>@item.Name</td>
-            <td>@item.Price</td>
-            <td>@item.Stock</td>
-            <td class="text-right">
-                <a class="btn btn-outline-danger text-right" asp-controller="Product" asp-action="Delete" asp-route-id="@item.Id">Remove</a>
-                <a class="btn btn-outline-success text-right" asp-controller="Product" asp-action="Update" asp-route-id="@item.Id" >Edit</a>
-            </td>
-        </tr>
+<tr>
+    <td>@item.Id</td>
+    <td>@item.Name</td>
+    <td>@item.Price</td>
+    <td>@item.Stock</td>
+    <td>@item.DateTime</td>
+    <td class="text-right">
+        <a class="btn btn-outline-danger text-right" asp-controller="Product" asp-action="Delete" asp-route-id="@item.Id">Remove</a>
+        <a class="btn btn-outline-success text-right" asp-controller="Product" asp-action="Update" asp-route-id="@item.Id">Edit</a>
+    </td>
+</tr>
     }
 
 </table>

@@ -1,4 +1,4 @@
-﻿@model Product
+﻿@model ProductViewModel
 @{
     ViewData["Title"] = "Add";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,14 +9,27 @@
 <form class="form-group" asp-controller="Product" asp-action="Add" method="post">
 
     <label>Name</label>
-    <input type="text" asp-for="Name" class="form-control"/>
-    <br/>
+    <input type="text" asp-for="Name" class="form-control" />
+    <span class="text-danger" asp-validation-for="Name"></span>
+    <br />
     <label>Price</label>
-    <input type="text" asp-for="Price" class="form-control"/>
-    <br/>
+    <input type="text" asp-for="Price" class="form-control" />
+    <br />
     <label>Stock</label>
-    <input type="text" asp-for="Stock" class="form-control"/>
-    <br/>
+    <input type="text" asp-for="Stock" class="form-control" />
+    <br />
+    <label>Data Time</label>
+    <input asp-for="DateTime" class="form-control" />
+    <br />
+    @foreach (var item in ViewBag.Expert as Dictionary<String, int>)
+    {
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="@item.Value">
+            <label class="form-check-label" for="inlineRadio1">@item.Key</label>
+        </div>
+    }
+
+    <br />
     <button class="btn btn-outline-success" type="submit">Add</button>
 </form>
 
