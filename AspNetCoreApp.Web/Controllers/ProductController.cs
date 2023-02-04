@@ -48,28 +48,32 @@ namespace AspNetCoreApp.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Products.Add(_mapper.Map<Product>(product));
-                _context.SaveChanges();
-                TempData["Alert"] = "Ürün başarılı bir şekilde eklendi";
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                ViewBag.Expert = new Dictionary<String, int>()
+                try
                 {
-                    {"1 Ay",1},
-                    {"3 Ay",3},
-                    {"6 Ay",6},
-                    {"12 Ay",12}
-                };
-                return View();
+                    _context.Products.Add(_mapper.Map<Product>(product));
+                    _context.SaveChanges();
+                    TempData["Alert"] = "Ürün başarılı bir şekilde eklendi";
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+                    ModelState.AddModelError(String.Empty, "Ürün eklenirken bir hata oluştu lütfen daha sonra tekrar deneyin.");
+                }
             }
+            ViewBag.Expert = new Dictionary<String, int>()
+            {
+                {"1 Ay",1},
+                {"3 Ay",3},
+                {"6 Ay",6},
+                {"12 Ay",12}
+            };
+            return View();
         }
 
         public IActionResult Delete(int id)
         {
             var product = _context.Products.Find(id);
-            _context.Products.Remove(product);
+            _context.Products.Remove(_mapper.Map<Product>(product));
             TempData["Alert"] = "Ürün başarılı bir şekilde silindi.";
             return RedirectToAction("Index");
         }
@@ -78,7 +82,7 @@ namespace AspNetCoreApp.Web.Controllers
         public IActionResult Update(int id)
         {
             var product = _context.Products.Find(id);
-            return View(product);
+            return View(_mapper.Map<ProductViewModel>(product));
         }
 
         [HttpPost]
@@ -88,6 +92,22 @@ namespace AspNetCoreApp.Web.Controllers
             _context.SaveChanges();
             TempData["Alert"] = "Ürün başarılı bir şekilde güncellendi.";
             return RedirectToAction("Index");
+        }
+
+
+        // Bu action da girilen ürün isminin daha önce var olup olmadığnı kontrol ettik.
+        [AcceptVerbs("GET","POST")]
+        public IActionResult HasProductName(string Name)
+        {
+            var anyProduct = _context.Products.Any(x => x.Name.ToLower() == Name.ToLower());
+            if (anyProduct)
+            {
+                return Json("Gidiğiniz ürün daha önce eklenmiştir");
+            }
+            else
+            {
+                return Json(true);
+            }
         }
     }
 }

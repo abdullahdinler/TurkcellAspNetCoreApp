@@ -6,6 +6,8 @@
 
 <h2>Added Page</h2>
 
+<div asp-validation-summary="All"></div>
+
 <form class="form-group" asp-controller="Product" asp-action="Add" method="post">
 
     <label>Name</label>
@@ -14,9 +16,11 @@
     <br />
     <label>Price</label>
     <input type="text" asp-for="Price" class="form-control" />
+    <span class="text-danger" asp-validation-for="Price"></span>
     <br />
     <label>Stock</label>
     <input type="text" asp-for="Stock" class="form-control" />
+    <span class="text-danger" asp-validation-for="Stock"></span>
     <br />
     <label>Data Time</label>
     <input asp-for="DateTime" class="form-control" />
@@ -33,3 +37,10 @@
     <button class="btn btn-outline-success" type="submit">Add</button>
 </form>
 
+
+@section Scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+}
