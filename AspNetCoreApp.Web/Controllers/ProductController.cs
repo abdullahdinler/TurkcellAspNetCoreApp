@@ -27,6 +27,7 @@ namespace AspNetCoreApp.Web.Controllers
             string text = "Merhaba Asp.Net Core";
                 
             var result = _context.Products.ToList();
+           
             return View(_mapper.Map<List<ProductViewModel>>(result));
         }
 

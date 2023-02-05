@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreApp.Web.ViewModel;
+using AutoMapper;
 
 namespace AspNetCoreApp.Web.Controllers
 {
@@ -13,13 +15,19 @@ namespace AspNetCoreApp.Web.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly Context _context;
+        private readonly IMapper _mapper;
+        public HomeController(ILogger<HomeController> logger, Context context, IMapper mapper)
         {
             _logger = logger;
+            _context = context;
+            _mapper = mapper;
         }
 
         public IActionResult Index()
         {
+            var model = _context.Products.ToList();
+            ViewBag.ProductList = _mapper.Map<List<ProductViewModel>>(model);
             return View();
         }
 
