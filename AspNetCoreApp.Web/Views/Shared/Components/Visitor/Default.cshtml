@@ -1,0 +1,55 @@
+﻿@model VisitorViewModel
+
+    @if (TempData["Alert"] != null)
+    {
+    <div class="alert alert-dark">
+        @TempData["Alert"]
+    </div>
+    }
+
+
+    <br />
+<h5>Yorum Listesi</h5>
+
+<table class="table table-bordered mt-4">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>İsim</th>
+        <th>Yorum</th>
+        <th>Tarih</th>
+    </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in (List<VisitorViewModel>) @ViewBag.Model)
+        {
+        <tr>
+            <th>@item.Id</th>
+            <td>@item.Name</td>
+            <td>@item.Comment</td>
+            <td>@item.CreateDate.ToString("D")</td>
+        </tr>
+        }
+
+    </tbody>
+    
+</table>
+
+<hr />
+
+
+
+<h5>Yorum Yap</h5>
+<form  asp-controller="Home" asp-action="VisitorAdded" method="post">
+        <div class="col-md-6">
+            <label asp-for="Name">İsim:</label>
+            <input class="form-control" asp-for="Name" required="İsminiz..." />
+        </div>
+        <div class="col-md-6">
+            <label asp-for="Comment">Yorumunuz:</label>
+            <textarea class="form-control" asp-for="Comment" rows="5" required="Yorumunuz.."></textarea>
+        </div>
+        <br />
+        <button class="btn btn-outline-primary" type="submit"> Gönder </button>
+
+    </form>

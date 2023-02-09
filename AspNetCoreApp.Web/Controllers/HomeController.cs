@@ -36,6 +36,34 @@ namespace AspNetCoreApp.Web.Controllers
             return View();
         }
 
+        public IActionResult Visitor()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public IActionResult VisitorAdded(VisitorViewModel visitor)
+        {
+            try
+            {
+                var model = _mapper.Map<Visitor>(visitor);
+                model.CreateDate = DateTime.Parse(DateTime.Now.ToShortDateString()); 
+                _context.Visitors.Add(model);
+                _context.SaveChanges();
+                TempData["Alert"] = "Yorum başarılı bir şekilde yapıldı.";
+                return RedirectToAction(nameof(HomeController.Visitor));
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = "Yorum yapılırken bir hata oluştu. Lütfen daha sonra tekrar deneyin";
+                return RedirectToAction(nameof(HomeController.Visitor));
+            }
+            
+        }
+
+
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
