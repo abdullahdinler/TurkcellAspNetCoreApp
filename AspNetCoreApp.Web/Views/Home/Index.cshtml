@@ -1,14 +1,20 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    var product = new Product()
+    {
+        Id = 1, Name = "Lenova", Price = 150, Stock = 12
+    };
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core"><italik>building Web apps with ASP.NET Core</italik></a>.</p>
 </div>
 <br />
 <div class="row">
     <div class="col-md-4"><partial name="_ProductListPartial" model="ViewBag.ProductList" /></div>
     <div class="col-md-4">@await Component.InvokeAsync("ProductList", new { id = 1 })</div>
     <div class="col-md-4"><vc:product-list id=2></vc:product-list></div>
+    <div class="col-md-4"><product-show product="product"></product-show></div>
+
 </div>
