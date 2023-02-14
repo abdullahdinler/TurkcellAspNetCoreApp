@@ -38,6 +38,8 @@
     <td class="text-right">
         <a class="btn btn-outline-danger text-right" asp-controller="Product" asp-action="Delete" asp-route-id="@item.Id">Remove</a>
         <a class="btn btn-outline-success text-right" asp-controller="Product" asp-action="Update" asp-route-id="@item.Id">Edit</a>
+        <a class="btn btn-outline-light text-right" asp-controller="Product" asp-action="Details" asp-route-id="@item.Id">Details</a>
+        <a class="btn btn-outline-dark text-right" asp-route="Detay"  asp-route-kod="@item.Id">Details</a>
     </td>
 </tr>
     }

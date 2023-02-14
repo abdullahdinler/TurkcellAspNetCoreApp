@@ -1,0 +1,18 @@
+﻿@model ProductViewModel
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card-header">
+    <div class="card-title">
+      Ürün Adı: @Model.Name
+    </div>
+    <div class="card-body">
+        <ul>
+            <li>Fiyat: @Model.Price</li>
+            <li>Stok: @Model.Stock</li>
+            <li>Tarih: @Model.DateTime.ToShortDateString()</li>
+        </ul>
+    </div>
+</div>

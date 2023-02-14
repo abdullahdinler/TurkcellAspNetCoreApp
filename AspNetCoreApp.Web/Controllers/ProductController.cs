@@ -110,5 +110,13 @@ namespace AspNetCoreApp.Web.Controllers
                 return Json(true);
             }
         }
+
+        [Route("/detay/{kod}", Name = "Detay")]
+        public  IActionResult Details(int kod)
+        {
+            var product = _context.Products.Find(kod);
+            return View(_mapper.Map<ProductViewModel>(product));
+        }
+        
     }
 }
