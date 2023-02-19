@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using AspNetCoreApp.Web.Filters;
 using AspNetCoreApp.Web.Helpers;
 using AspNetCoreApp.Web.Models;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +29,9 @@ namespace AspNetCoreApp.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddScoped<NotFoundFilter>();
+
             services.AddDbContext<Context>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             //services.AddScoped<IHelper, Helper>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());

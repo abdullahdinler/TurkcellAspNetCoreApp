@@ -8,9 +8,11 @@ using AspNetCoreApp.Web.Helpers;
 using AspNetCoreApp.Web.Models;
 using AspNetCoreApp.Web.ViewModel;
 using AutoMapper;
+using AspNetCoreApp.Web.Filters;
 
 namespace AspNetCoreApp.Web.Controllers
 {
+    
     public class ProductController : Controller
     {
         private readonly IMapper _mapper;
@@ -70,7 +72,7 @@ namespace AspNetCoreApp.Web.Controllers
             };
             return View();
         }
-
+        [ServiceFilter(typeof(NotFoundFilter))]
         public IActionResult Delete(int id)
         {
             var product = _context.Products.Find(id);
@@ -79,6 +81,7 @@ namespace AspNetCoreApp.Web.Controllers
             return RedirectToAction("Index");
         }
 
+        [ServiceFilter(typeof(NotFoundFilter))]
         [HttpGet]
         public IActionResult Update(int id)
         {
@@ -110,7 +113,7 @@ namespace AspNetCoreApp.Web.Controllers
                 return Json(true);
             }
         }
-
+        [ServiceFilter(typeof(NotFoundFilter))]
         [Route("/detay/{kod}", Name = "Detay")]
         public  IActionResult Details(int kod)
         {

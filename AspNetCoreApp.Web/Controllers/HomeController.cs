@@ -6,11 +6,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreApp.Web.Filters;
 using AspNetCoreApp.Web.ViewModel;
 using AutoMapper;
 
 namespace AspNetCoreApp.Web.Controllers
 {
+    [LogFilter]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -65,9 +67,10 @@ namespace AspNetCoreApp.Web.Controllers
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult Error(ErrorViewModel errorViewModel)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            errorViewModel.RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+            return View(errorViewModel);
         }
     }
 }
