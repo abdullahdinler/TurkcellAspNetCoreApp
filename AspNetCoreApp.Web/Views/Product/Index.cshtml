@@ -9,9 +9,9 @@
 
 @if (@TempData["Alert"] != null)
 {
-    <div class="alert alert-success" role="alert">
+        <div class="alert alert-success" role="alert">
         @TempData["Alert"]
-    </div>
+        </div>
 }
 
 <div class="text-right">
@@ -21,6 +21,7 @@
 <table class="table table-bordered">
     <tr>
         <th>ID</th>
+        <th>IMAGE</th>
         <th>NAME</th>
         <th>PRICE</th>
         <th>STOCK</th>
@@ -29,19 +30,19 @@
     </tr>
     @foreach (var item in Model)
     {
-<tr>
-    <td>@item.Id</td>
-    <td>@item.Name</td>
-    <td>@item.Price</td>
-    <td>@item.Stock</td>
-    <td>@item.DateTime</td>
-    <td class="text-right">
-        <a class="btn btn-outline-danger text-right" asp-controller="Product" asp-action="Delete" asp-route-id="@item.Id">Remove</a>
-        <a class="btn btn-outline-success text-right" asp-controller="Product" asp-action="Update" asp-route-id="@item.Id">Edit</a>
-        <a class="btn btn-outline-light text-right" asp-controller="Product" asp-action="Details" asp-route-id="@item.Id">Details</a>
-        <a class="btn btn-outline-dark text-right" asp-route="Detay"  asp-route-kod="@item.Id">Details</a>
-    </td>
-</tr>
+    <tr>
+        <td>@item.Id</td>
+            <td><img src="/images/@(item.ImagePath)" alt="" width="100px" height="100px"/></td>
+        <td>@item.Name</td>
+        <td>@item.Price</td>
+        <td>@item.Stock</td>
+        <td>@item.DateTime</td>
+        <td class="text-right">
+            <a class="btn btn-outline-danger text-right" asp-controller="Product" asp-action="Delete" asp-route-id="@item.Id">Remove</a>
+            <a class="btn btn-outline-success text-right" asp-controller="Product" asp-action="Update" asp-route-id="@item.Id">Edit</a>
+            <a class="btn btn-outline-dark text-right" asp-route="Detay"  asp-route-kod="@item.Id">Details</a>
+        </td>
+    </tr>
     }
 
 </table>

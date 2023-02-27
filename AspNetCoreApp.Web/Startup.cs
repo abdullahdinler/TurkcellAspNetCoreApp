@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ using AspNetCoreApp.Web.Filters;
 using AspNetCoreApp.Web.Helpers;
 using AspNetCoreApp.Web.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 
 namespace AspNetCoreApp.Web
 {
@@ -31,6 +33,9 @@ namespace AspNetCoreApp.Web
             services.AddControllersWithViews();
 
             services.AddScoped<NotFoundFilter>();
+
+            // Dosya yükleme iþlemleri için containera fileproider eklendi.
+            services.AddSingleton<IFileProvider>(new PhysicalFileProvider(Directory.GetCurrentDirectory()));
 
             services.AddDbContext<Context>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             //services.AddScoped<IHelper, Helper>();

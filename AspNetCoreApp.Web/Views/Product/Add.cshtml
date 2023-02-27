@@ -8,7 +8,7 @@
 
 <div asp-validation-summary="All"></div>
 
-<form class="form-group" asp-controller="Product" asp-action="Add" method="post">
+<form class="form-group" asp-controller="Product" asp-action="Add" method="post" enctype="multipart/form-data">
 
     <label>Name</label>
     <input type="text" asp-for="Name" class="form-control" />
@@ -32,7 +32,11 @@
             <label class="form-check-label" for="inlineRadio1">@item.Key</label>
         </div>
     }
-
+    <br/>
+    <div class="mb-3">
+        <label for="formFile" class="form-label">Default file input example</label>
+        <input class="form-control" type="file"  asp-for="Image">
+    </div>
     <br />
     <button class="btn btn-outline-success" type="submit">Add</button>
 </form>

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace AspNetCoreApp.Web.ViewModel
 {
@@ -19,5 +21,8 @@ namespace AspNetCoreApp.Web.ViewModel
         [Range(1, 100, ErrorMessage = "Fiyat bilgisi 1 ile 100 arasında olması gerek.")]
         public int? Stock { get; set; }
         public DateTime DateTime { get; set; }
+        public IFormFile Image { get; set; }
+        [ValidateNever]
+        public string ImagePath { get; set; }
     }
 }

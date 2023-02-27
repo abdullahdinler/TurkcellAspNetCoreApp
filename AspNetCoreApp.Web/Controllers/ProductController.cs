@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,6 +10,9 @@ using AspNetCoreApp.Web.Models;
 using AspNetCoreApp.Web.ViewModel;
 using AutoMapper;
 using AspNetCoreApp.Web.Filters;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Http;
+
 
 namespace AspNetCoreApp.Web.Controllers
 {
@@ -17,11 +21,13 @@ namespace AspNetCoreApp.Web.Controllers
     {
         private readonly IMapper _mapper;
         private readonly Context _context;
+        private readonly IFileProvider _fileProvider;
 
-        public ProductController(Context context, IMapper mapper)
+        public ProductController(Context context, IMapper mapper, IFileProvider fileProvider)
         {
             _context = context;
             _mapper = mapper;
+            _fileProvider = fileProvider;
         }
         
         public IActionResult Index()
@@ -47,13 +53,28 @@ namespace AspNetCoreApp.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(ProductViewModel product)
+        public  IActionResult Add(ProductViewModel product)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Products.Add(_mapper.Map<Product>(product));
+
+                    var root = _fileProvider.GetDirectoryContents("wwwroot");
+                    var images = root.First(x => x.Name == "images");
+
+                    var randomName = Guid.NewGuid() + Path.GetExtension(product.Image.FileName);
+
+                    var path = Path.Combine(images.PhysicalPath, randomName);
+                    using var stream = new FileStream(path, FileMode.Create);
+                    product.Image.CopyTo(stream);
+
+
+                    var products = _mapper.Map<Product>(product);
+                    products.ImagePath = randomName;
+                    
+
+                    _context.Products.Add(products);
                     _context.SaveChanges();
                     TempData["Alert"] = "Ürün başarılı bir şekilde eklendi";
                     return RedirectToAction("Index");
@@ -90,9 +111,25 @@ namespace AspNetCoreApp.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Update(Product product)
+        public IActionResult Update(ProductViewModel product)
         {
-            _context.Products.Update(product);
+            var products = _mapper.Map<Product>(product);
+            if (product.ImagePath == null)
+            {
+                var root = _fileProvider.GetDirectoryContents("wwwroot");
+                var images = root.First(x => x.Name == "images");
+
+                var randomName = Guid.NewGuid() + Path.GetExtension(product.Image.FileName);
+
+                var path = Path.Combine(images.PhysicalPath, randomName);
+                using var stream = new FileStream(path, FileMode.Create);
+                product.Image.CopyTo(stream);
+                products.ImagePath = randomName;
+            }
+
+
+
+            _context.Products.Update(products);
             _context.SaveChanges();
             TempData["Alert"] = "Ürün başarılı bir şekilde güncellendi.";
             return RedirectToAction("Index");
