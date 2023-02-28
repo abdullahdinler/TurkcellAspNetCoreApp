@@ -23,6 +23,7 @@
         <th>ID</th>
         <th>IMAGE</th>
         <th>NAME</th>
+        <th>CATEGORİES</th>
         <th>PRICE</th>
         <th>STOCK</th>
         <th>TIME</th>
@@ -32,8 +33,9 @@
     {
     <tr>
         <td>@item.Id</td>
-            <td><img src="/images/@(item.ImagePath)" alt="" width="100px" height="100px"/></td>
-        <td>@item.Name</td>
+            <td><img src="/images/@(item.ImagePath)" alt="" width="100px" height="60px"/></td>
+            <td>@item.Name</td>
+            <td>@item.CategoryName</td>
         <td>@item.Price</td>
         <td>@item.Stock</td>
         <td>@item.DateTime</td>

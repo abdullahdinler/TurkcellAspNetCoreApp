@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -23,6 +24,11 @@ namespace AspNetCoreApp.Web.ViewModel
         public DateTime DateTime { get; set; }
         public IFormFile Image { get; set; }
         [ValidateNever]
-        public string ImagePath { get; set; }
+        public string? ImagePath { get; set; }
+
+        [Required(ErrorMessage = "Kategori seçiniz")]
+        public int CategoryId { get; set; }
+
+        public string? CategoryName { get; set; }
     }
 }

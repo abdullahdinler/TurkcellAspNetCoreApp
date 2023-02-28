@@ -12,6 +12,8 @@ using AutoMapper;
 using AspNetCoreApp.Web.Filters;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace AspNetCoreApp.Web.Controllers
@@ -33,10 +35,26 @@ namespace AspNetCoreApp.Web.Controllers
         public IActionResult Index()
         {
             string text = "Merhaba Asp.Net Core";
-                
-            var result = _context.Products.ToList();
+
+            var product = _context.Products.Include(x => x.Category).Select(x =>
+                new ProductViewModel()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Price = x.Price,
+                    Stock = x.Stock,
+                    DateTime = x.DateTime,
+                    ImagePath = x.ImagePath,
+                    CategoryName = x.Category.Name
+
+                }).ToList();
+
+
+
+
+            
            
-            return View(_mapper.Map<List<ProductViewModel>>(result));
+            return View(product);
         }
 
         [HttpGet]
@@ -49,6 +67,10 @@ namespace AspNetCoreApp.Web.Controllers
                  {"6 Ay",6},
                  {"12 Ay",12}
             };
+
+
+            var categories = _context.Category.ToList();
+            ViewBag.Categories = new SelectList(categories, "Id", "Name");
             return View();
         }
 
@@ -106,7 +128,9 @@ namespace AspNetCoreApp.Web.Controllers
         [HttpGet]
         public IActionResult Update(int id)
         {
+            var categories = _context.Category.ToList();
             var product = _context.Products.Find(id);
+            ViewBag.Categories = new SelectList(categories, "Id", "Name",product.CategoryId);
             return View(_mapper.Map<ProductViewModel>(product));
         }
 

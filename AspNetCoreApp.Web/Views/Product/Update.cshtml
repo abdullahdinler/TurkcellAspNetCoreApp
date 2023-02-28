@@ -25,7 +25,14 @@
        <label for="formFile" class="form-label">Default file input example</label>
        <input class="form-control" type="file"  asp-for="Image">
    </div>
-   <br />
+    <br />
+    <div class="mb-3">
+        <select class="form-control" asp-for="CategoryId" asp-items="@ViewBag.Categories">
+            <option value="">Kategori Seçiniz</option>
+        </select>  
+        <span class="text-danger" asp-validation-for="CategoryId"></span>
+    </div>
+    <br/>  
     <button class="btn btn-outline-success" type="submit">Updated</button>
 </form>
 
