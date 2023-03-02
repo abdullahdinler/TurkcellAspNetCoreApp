@@ -11,5 +11,6 @@ namespace AspNetCoreApp.Web.ViewModel
         public string Name { get; set; }
         public string Comment { get; set; }
         public DateTime CreateDate { get; set; }
+        public string Date => CreateDate.ToLongDateString();
     }
 }

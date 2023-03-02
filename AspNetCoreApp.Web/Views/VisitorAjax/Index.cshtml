@@ -1,0 +1,99 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section Scripts
+    {
+    <script>
+
+
+                             function LoadComment(){
+
+                                    $.ajax({
+                                    type:"GET",
+                                    url:"/VisitorAjax/VisitorCommentList/",
+                                    success:function(data){$.each(data,(index,item)=>{
+
+                                        let itemm = ` <tr>
+                                                       <th>${item.id}</th>
+                                                     <td>${item.name}</td>
+                                                         <td>${item.comment}</td>
+                                                            <td>${item.date}</td>
+                                                    </tr>`;
+
+                                                $("#comments").append(itemm);
+                                                $("#loading").hide();
+                                    })
+                                    },
+                                    error: function(error){console.log(error);}
+                                    });
+
+                                }
+
+                            LoadComment();
+                                $("#loading").show();
+
+                            $(document).ready(function(){
+                                $("#btnSave").click(function(){
+                                var name = $("#Name").val();
+                                var comment = $("#Comment").val();
+                                var data = {"comment":comment, "name": name};
+
+
+                                $.ajax({
+                                    type:"post",
+                                    url:"/VisitorAjax/VisitorAdded/",
+                                    data:data,
+                                        success:function(data){alert("Yorum kayıt edildi");LoadComment();},
+                                    error: function(error){console.log(error);}
+                                    });
+
+                                });
+                            });
+
+
+                    </script>
+}
+
+
+
+<div class="col-md-6">
+    <label for="Name">İsim:</label>
+    <input class="form-control" id="Name" name="Name" required="İsminiz..." />
+</div>
+<div class="col-md-6">
+    <label for="Comment">Yorumunuz:</label>
+    <textarea class="form-control" id="Comment" name="Comment" rows="5" required="Yorumunuz.."></textarea>
+</div>
+<br />
+<button id="btnSave" class="btn btn-outline-primary" type="button"> Gönder </button>
+
+
+<table class="table table-bordered mt-4">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>İsim</th>
+        <th>Yorum</th>
+        <th>Tarih</th>
+    </tr>
+    </thead>
+    <div id="loading">
+        <div  class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
+    <tbody id="comments">
+
+
+ 
+
+
+    </tbody>
+
+</table>
